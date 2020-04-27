@@ -1,3 +1,6 @@
+# CS 4300 - Find the Pea to Your Podcast Prototype 1
+This is the forked version of the full Flask App of our CS 4300: Language and Information Project. This is prototype 1 and the deployed version can be found at [this heroku app](http://pea-podcast-proto1.herokuapp.com/). Below are the instructions from course instructors to set up the basic foundation of a Flask App and Postgres database integrations.
+
 # CS4300 - Flask Template
 This Flask app template is intended to get you started with your project and launch it on Heroku, and assumes no prior experience with web development (but some patience).
 
