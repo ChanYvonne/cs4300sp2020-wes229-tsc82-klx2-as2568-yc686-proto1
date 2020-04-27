@@ -2,7 +2,6 @@ from . import *
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 from app.irsystem.models.podcasts import Podcasts
-from app.irsystem.models.reviews import Reviews
 from app.irsystem.controllers.similarity_calculator import *
 from sqlalchemy.orm import load_only
 
@@ -14,15 +13,13 @@ net_id = "Will Spencer: wes229, Theresa Cho: tsc82, Kathleen Xu: klx2, Yvonne Ch
 def search():
 	# queries all podcasts names
 	query_podcast_names = Podcasts.query.order_by(Podcasts.name).options(load_only("name")).all()
-	all_podcast_names = []
+	podcast_names = []
 	for result in query_podcast_names:
-		all_podcast_names.append(result.name)
+		podcast_names.append(result.name)
 	# print(all_podcast_names)
 
 	# user input query
 	query = request.args.get('podcast_search')
-
-	podcast_names = all_podcast_names
 
 	if not query:
 		data_dict_list = []
@@ -48,11 +45,8 @@ def search():
 			all_podcasts.append(pod_dict)
 		# print(all_podcasts[0])
 
-		#replace 'Fresh Air' with podcast once the all_podcast_names are intergrated as valid inputs
-		# query_podcast_info = Podcasts.query.filter_by(name='Fresh Air').first_or_404()
-		query_reviews = Reviews.query.filter_by(pod_name=query).all()
-
 		query_podcast_info = Podcasts.query.filter_by(name=query).first_or_404()
+		
 		query_dict = {
 			'name': query_podcast_info.name,
 			'description': query_podcast_info.description,
@@ -67,17 +61,40 @@ def search():
 			query_dict['pic'] = "placeholder.jpg"
 
 		query_dict['genres'] = (query_podcast_info.genres).split(';')
-
-		#formatting list of podcast reviews dicts for query
+		
+		# formatting list of podcast reviews dicts for query
 		all_reviews = []
-		for review in query_reviews:
-			review_dict = {
-				'pod_name': review.pod_name,
-				'rev_name': review.review_name,
-				'rev_rating': review.review_rating,
-				'rev_text': review.review_text
+		review_dict_1 = {
+			'pod_name': result.name,
+			'rev_text': result.review_1,
+			'rev_rating': result.score_1
 			}
-			all_reviews.append(review_dict)
+		all_reviews.append(review_dict_1)
+		review_dict_2 = {
+			'pod_name': result.name,
+     	'rev_text': result.review_2,   	     
+			'rev_rating': result.score_2
+    }
+		all_reviews.append(review_dict_2)
+		review_dict_3 = {
+      'pod_name': result.name,
+      'rev_text': result.review_3,
+      'rev_rating': result.score_3
+    }
+		all_reviews.append(review_dict_3)
+		review_dict_4 = {
+    	'pod_name': result.name,
+      'rev_text': result.review_4,
+      'rev_rating': result.score_4
+    }
+		all_reviews.append(review_dict_4)
+		review_dict_5 = {
+      'pod_name': result.name,
+      'rev_text': result.review_5,
+      'rev_rating': result.score_5
+    }
+		all_reviews.append(review_dict_5)
+
 		# print(all_reviews[0])
 
 		# calculates similarity scores
